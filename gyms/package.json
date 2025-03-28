@@ -1,0 +1,47 @@
+{
+  "name": "frontend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "biome check --apply-unsafe --no-errors-on-unmatched --files-ignore-unknown=true ./",
+    "preview": "vite preview",
+    "generate-client": "openapi-ts --input ./openapi.json --output ./src/client --client axios --exportSchemas true",
+    "tsr-generate": "tsr watch"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@fontsource/roboto": "^5.1.1",
+    "@mui/icons-material": "^6.4.1",
+    "@mui/material": "^6.4.1",
+    "@tanstack/react-query": "^5.64.1",
+    "@tanstack/react-query-devtools": "^5.64.1",
+    "@tanstack/react-router": "^1.97.3",
+    "@vitejs/plugin-react": "^4.3.4",
+    "axios": "1.7.4",
+    "form-data": "4.0.0",
+    "framer-motion": "10.16.16",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-error-boundary": "^4.1.2",
+    "react-hook-form": "7.49.3",
+    "react-icons": "5.0.1"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.6.1",
+    "@hey-api/openapi-ts": "^0.34.5",
+    "@playwright/test": "^1.49.1",
+    "@tanstack/router-devtools": "^1.19.1",
+    "@tanstack/router-plugin": "^1.97.3",
+    "@types/node": "^20.17.14",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react-swc": "^3.7.2",
+    "dotenv": "^16.4.7",
+    "typescript": "^5.7.3",
+    "vite": "^5.4.11"
+  }
+}

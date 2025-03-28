@@ -112,3 +112,66 @@ class TokenPayload(SQLModel):
 class NewPassword(SQLModel):
     token: str
     new_password: str = Field(min_length=8, max_length=40)
+
+class CountryBase(SQLModel):
+    name: str = Field(max_length=255)
+    is_active: bool = True
+
+class Country(CountryBase, table=True):
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+
+class CityBase(SQLModel):
+    name: str = Field(max_length=255)
+    country_id: uuid.UUID = Field(foreign_key="country.id", nullable=False, ondelete="CASCADE")
+
+class City(CityBase, table=True):
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+
+class GymAttributesLink(SQLModel, table=True):
+    gym_id: uuid.UUID = Field(default=None, foreign_key="gym.id", primary_key=True)
+    attribute_id: uuid.UUID = Field(default=None, foreign_key="attributes.id", primary_key=True)
+
+class GymBase(SQLModel):
+    name: str = Field(max_length=255)
+    is_active: bool = True
+    latitude: float
+    longitude: float
+    address: str | None = Field(default=None, max_length=255)
+    city: str | None = Field(default=None, max_length=255)
+    state: str | None = Field(default=None, max_length=255)
+    zip_code: str | None = Field(default=None, max_length=255)
+    country: str | None = Field(default=None, max_length=255)
+    phone: str | None = Field(default=None, max_length=255)
+    city_id: uuid.UUID = Field(foreign_key="city.id", nullable=False, ondelete="CASCADE")
+
+class Gym(GymBase, table=True):
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    attributes: list["Attributes"] = Relationship(back_populates="attributes", link_model=GymAttributesLink)
+
+class AttributesBase(SQLModel):
+    name: str = Field(max_length=255)
+
+class Attributes(AttributesBase, table=True):
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    gyms: list[Gym] = Relationship(back_populates="gym", link_model=GymAttributesLink)
+
+class Locales(SQLModel):
+    name: str = Field(max_length=255)
+
+class LocalesBase(SQLModel):
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+
+class GlossaryBase(SQLModel):
+    key: str = Field(max_length=255)
+
+class Glossary(GlossaryBase, table=True):
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+
+class GlossaryTranslationBase(SQLModel):
+    key: str = Field(max_length=255)
+    locale: str = Field(max_length=255)
+    value: str = Field(max_length=255)
+
+class GlossaryTranslation(GlossaryTranslationBase, table=True):
+    id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+
