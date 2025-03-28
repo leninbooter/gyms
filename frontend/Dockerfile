@@ -7,6 +7,11 @@ COPY ./certificates/zscaler.crt /usr/local/share/ca-certificates/zscaler.crt
 RUN chmod 644 /usr/local/share/ca-certificates/zscaler.crt && update-ca-certificates --fresh
 RUN npm config set cafile /usr/local/share/ca-certificates/zscaler.crt
 
+# Install Jungheinrich Zscaler certificate to enable TLS access through the proxy.
+RUN apt-get update && apt-get install -y ca-certificates
+COPY ./certificates/zscaler.crt /usr/local/share/ca-certificates/zscaler.crt
+RUN chmod 644 /usr/local/share/ca-certificates/zscaler.crt && update-ca-certificates --fresh
+
 WORKDIR /app
 
 COPY package*.json /app/
